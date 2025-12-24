@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel ADM - Logs de Captura</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #1a1a1a; color: #fff; padding: 20px; }
+        .container { max-width: 800px; margin: auto; }
+        h1 { color: #0095f6; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #222; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #444; }
+        th { background-color: #0095f6; color: white; }
+        tr:nth-child(even) { background-color: #2a2a2a; }
+        .senha { color: #00ff00; font-family: monospace; }
+        .botoes { margin-top: 20px; display: flex; gap: 10px; }
+        button { padding: 10px 20px; cursor: pointer; border: none; border-radius: 5px; font-weight: bold; }
+        .btn-limpar { background: #ff4d4d; color: white; }
+        .btn-voltar { background: #555; color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Capturas Recebidas</h1>
+        
+        <table id="tabelaLogins">
+            <thead>
+                <tr>
+                    <th>Data/Hora</th>
+                    <th>Usuário</th>
+                    <th>Senha</th>
+                </tr>
+            </thead>
+            <tbody>
+                </tbody>
+        </table>
+
+        <div class="botoes">
+            <button class="btn-voltar" onclick="window.location.href='index.html'">Simular Novo Login</button>
+            <button class="btn-limpar" onclick="limparTudo()">Limpar Todo o Banco</button>
+        </div>
+    </div>
+
+    <script>
+        function carregarDados() {
+            const corpoTabela = document.querySelector('#tabelaLogins tbody');
+            const listaLogins = JSON.parse(localStorage.getItem('listaLogins') || "[]");
+
+            if (listaLogins.length === 0) {
+                corpoTabela.innerHTML = "<tr><td colspan='3' style='text-align:center'>Nenhum dado capturado ainda.</td></tr>";
+                return;
+            }
+
+            listaLogins.forEach(item => {
+                const linha = `<tr>
+                    <td>${item.data}</td>
+                    <td>${item.usuario}</td>
+                    <td class="senha">${item.senha}</td>
+                </tr>`;
+                corpoTabela.innerHTML += linha;
+            });
+        }
+
+        function limparTudo() {
+            if(confirm("Deseja apagar todos os registros?")) {
+                localStorage.removeItem('listaLogins');
+                location.reload();
+            }
+        }
+
+        // Inicia a função ao abrir a página
+        carregarDados();
+    </script>
+</body>
+</html>

